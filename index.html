@@ -3,397 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricket Match & Toss Predictor | AI Statistical Forecast</title>
+    <title>Aaryan Cricket Prediction | Tools, Calculators & Rules</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #212529;
-            line-height: 1.6;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #212529; line-height: 1.6; padding-bottom: 50px; }
+        
         /* Top Navigation Bar */
-        .navbar {
-            background-color: #000000;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .brand-icon {
-            background: #20c997;
-            color: #fff;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        .menu-btn {
-            color: #ffffff;
-            font-size: 24px;
-            cursor: pointer;
-        }
+        .navbar { background-color: #000000; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .brand-logo { display: flex; align-items: center; gap: 10px; color: #ffffff; font-weight: bold; font-size: 18px; cursor: pointer; }
+        .brand-icon { background: #00f5d4; color: #000; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
+        .menu-btn { color: #ffffff; font-size: 26px; cursor: pointer; padding: 5px; }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px 15px;
-        }
+        /* Sliding Side Drawer Menu */
+        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1100; }
+        .side-drawer { position: fixed; top: 0; right: -300px; width: 290px; height: 100%; background-color: #000000; color: #ffffff; transition: 0.3s ease; z-index: 1200; overflow-y: auto; padding: 20px 15px; }
+        .side-drawer.open { right: 0; }
+        .close-drawer { text-align: right; font-size: 24px; color: #ffbe0b; cursor: pointer; margin-bottom: 15px; }
+        
+        /* Menu Accordions */
+        .menu-category { border-bottom: 1px solid #222; margin-bottom: 10px; }
+        .category-title { font-weight: bold; font-size: 15px; padding: 12px 5px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: #e0e1dd; }
+        .category-title:hover { color: #00f5d4; }
+        .category-items { display: none; padding-left: 15px; background: #111111; border-radius: 8px; margin-bottom: 10px; }
+        .category-items a { display: block; color: #adb5bd; text-decoration: none; padding: 10px 5px; font-size: 14px; border-bottom: 1px solid #222; }
+        .category-items a:hover { color: #ffbe0b; }
 
-        /* Banner & Telegram Button */
-        .telegram-card {
-            background: #e7f5ff;
-            border: 1px solid #a5d8ff;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .telegram-btn {
-            background-color: #0088cc;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 8px;
-            box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3);
-        }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
 
-        /* Hero Header */
-        .page-title {
-            text-align: center;
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 5px;
-            color: #111;
-        }
-        .sub-title {
-            text-align: center;
-            color: #6c757d;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
+        /* Page Section Wrapper */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
 
-        /* Dropdown Selector Box */
-        .select-box-wrap {
-            margin-bottom: 25px;
-        }
-        .select-custom {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid #339af0;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            background-color: #ffffff;
-            color: #333;
-            outline: none;
-            box-shadow: 0 2px 8px rgba(51, 154, 240, 0.15);
-        }
+        /* Telegram Banner Card */
+        .telegram-card { background: #e7f5ff; border: 1px solid #a5d8ff; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .telegram-btn { background-color: #0088cc; color: #ffffff; text-decoration: none; padding: 10px 22px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 8px; box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3); }
 
-        /* Prediction Result Output Card */
-        .result-card {
-            background: linear-gradient(145deg, #0b132b, #1c2541);
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .result-header {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffbe0b;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 15px;
-        }
-        .val-green { color: #00f5d4; font-weight: bold; }
-        .val-gold { color: #ffd166; font-weight: bold; }
+        /* Search Input Box */
+        .search-box { width: 100%; padding: 14px; border: 2px solid #339af0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* Accuracy Card */
-        .accuracy-card {
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .accuracy-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .progress-bg {
-            background: #e9ecef;
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress-fill {
-            background: #20c997;
-            height: 100%;
-            width: 52.84%;
-        }
-        .grid-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .stat-item {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
-        .stat-val { font-size: 18px; font-weight: bold; color: #111; }
-        .stat-lbl { font-size: 12px; color: #6c757d; }
+        /* Grid Action Cards */
+        .tool-card-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .tool-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+        .tool-card:hover { border-color: #339af0; background: #f1f7fe; transform: translateY(-2px); }
+        .tool-title { font-size: 16px; font-weight: bold; color: #212529; }
+        .tool-desc { font-size: 13px; color: #6c757d; }
 
-        /* Recommended Tools Section */
-        .section-box {
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .section-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tool-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .tool-item {
-            background: #f8f9fa;
-            border: 1px solid #f1f3f5;
-            border-radius: 12px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            color: #343a40;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .tool-item:hover {
-            background: #e7f5ff;
-            border-color: #74c0fc;
-        }
+        /* Interactive Forms & Info Cards */
+        .interactive-box { background: #ffffff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; outline: none; }
+        .btn-submit { width: 100%; background: #00f5d4; color: #000; font-weight: bold; padding: 14px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-submit:hover { background: #00d8ba; }
+        
+        .result-display { margin-top: 15px; padding: 15px; background: #e7f5ff; border: 1px solid #74c0fc; border-radius: 10px; font-weight: bold; text-align: center; font-size: 16px; color: #1864ab; display: none; }
 
-        /* SEO Article Content Section */
-        .article-card {
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .article-card h2 { font-size: 20px; font-weight: bold; margin-bottom: 12px; }
-        .article-card h3 { font-size: 16px; font-weight: bold; margin: 15px 0 8px; }
-        .article-card p { font-size: 14px; color: #495057; margin-bottom: 12px; }
-        .article-card ul { padding-left: 20px; margin-bottom: 15px; font-size: 14px; color: #495057; }
-        .article-card li { margin-bottom: 6px; }
+        .disclaimer-card { background: #fff9db; border: 1px solid #fcc419; border-radius: 12px; padding: 15px; font-size: 13px; color: #664d03; margin-top: 25px; }
 
-        .footer {
-            text-align: center;
-            font-size: 12px;
-            color: #adb5bd;
-            padding: 20px 0;
-        }
+        .footer { text-align: center; font-size: 12px; color: #adb5bd; margin-top: 30px; border-top: 1px solid #dee2e6; padding-top: 20px; }
     </style>
 </head>
 <body>
 
     <!-- Header Navigation -->
     <div class="navbar">
-        <div class="brand-logo">
-            <div class="brand-icon">CS</div>
-            <span>CricketStance AI</span>
+        <div class="brand-logo" onclick="showSection('home-section')">
+            <div class="brand-icon">AP</div>
+            <span>Aaryan Cricket Prediction</span>
         </div>
-        <div class="menu-btn">☰</div>
+        <div class="menu-btn" onclick="toggleDrawer()">☰</div>
+    </div>
+
+    <!-- Drawer Overlay & Side Menu -->
+    <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
+    <div class="side-drawer" id="drawer">
+        <div class="close-drawer" onclick="toggleDrawer()">✕ Close</div>
+        
+        <div class="menu-category">
+            <div class="category-title" onclick="toggleAccordion('cat-tools')">🎯 Match Predictors <span>▼</span></div>
+            <div class="category-items" id="cat-tools">
+                <a href="#" onclick="showSection('predict-section')">🔥 Live Match Predictor</a>
+                <a href="#" onclick="showSection('toss-section')">🪙 Toss Predictor Engine</a>
+                <a href="#" onclick="showSection('win-prob-section')">📈 Win Probability %</a>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <div class="category-title" onclick="toggleAccordion('cat-leagues')">🏆 Cricket Leagues <span>▼</span></div>
+            <div class="category-items" id="cat-leagues">
+                <a href="#" onclick="showSection('ipl-section')">🇮🇳 IPL Prediction Hub</a>
+                <a href="#" onclick="showSection('psl-section')">🇵🇰 PSL 2026 Predictions</a>
+                <a href="#" onclick="showSection('bbl-section')">🇦🇺 Big Bash League</a>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <div class="category-title" onclick="toggleAccordion('cat-calcs')">🧮 Stat Calculators <span>▼</span></div>
+            <div class="category-items" id="cat-calcs">
+                <a href="#" onclick="showSection('nrr-section')">📊 Net Run Rate Calculator</a>
+                <a href="#" onclick="showSection('score-calc-section')">🏏 Projected Score Calculator</a>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <div class="category-title" onclick="toggleAccordion('cat-rules')">📘 Rules & Guides <span>▼</span></div>
+            <div class="category-items" id="cat-rules">
+                <a href="#" onclick="showSection('lbw-rule-section')">📜 LBW Rule Explained</a>
+                <a href="#" onclick="showSection('retired-rule-section')">📜 Retired Hurt vs Retired Out</a>
+                <a href="#" onclick="showSection('deadball-rule-section')">📜 Dead Ball Guide</a>
+            </div>
+        </div>
     </div>
 
     <div class="container">
 
-        <!-- Telegram Channel Card -->
+        <!-- Telegram Card -->
         <div class="telegram-card">
-            <div>🔴 <b>Don't miss the next cricket update</b></div>
-            <a href="#" class="telegram-btn">🚀 JOIN TELEGRAM FREE</a>
-            <div style="font-size: 12px; color: #6c757d; margin-top: 6px;">⚡ Live Updates • 📊 Rare Stats • 🔥 Match Alerts</div>
+            <div>🔴 <b>Don't miss the next live cricket update</b></div>
+            <a href="https://t.me" class="telegram-btn" target="_blank">🚀 JOIN TELEGRAM FREE</a>
         </div>
 
-        <!-- Page Main Heading -->
-        <h1 class="page-title">🏏 Cricket Match Predictor</h1>
-        <div class="sub-title">AI-Powered Statistical Forecast & Live Toss Insights</div>
+        <!-- SEARCH BAR -->
+        <input type="text" class="search-box" id="searchBar" placeholder="🔍 Search tools, calculators, predictors..." onkeyup="filterTools()">
 
-        <!-- Match Select Dropdown -->
-        <div class="select-box-wrap">
-            <select class="select-custom" id="matchSelect" onchange="updateMatchPrediction()">
-                <option value="0">-- Select a match --</option>
-                <option value="1">Mumbai Indians vs Chennai Super Kings (T20)</option>
-                <option value="2">Royal Challengers Bengaluru vs Kolkata Knight Riders (T20)</option>
-                <option value="3">India vs Australia (ODI World Cup)</option>
-                <option value="4">Pakistan vs England (T20 Series)</option>
-            </select>
-        </div>
+        <!-- ================= PAGE 1: HOME PORTAL ================= -->
+        <div class="page-section active" id="home-section">
+            <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 5px;">🏏 Cricket Tools & Predictors</h1>
+            <p style="color: #6c757d; font-size: 14px; margin-bottom: 20px;">Everything you need — match predictors, live calculators & rules. All free, all in one place.</p>
 
-        <!-- Dynamic Prediction Result Display -->
-        <div class="result-card" id="resultBox" style="display: none;">
-            <div class="result-header" id="resMatchTitle">MI vs CSK</div>
-            <div class="result-row">
-                <span>🪙 Toss Winner Prediction:</span>
-                <span class="val-green" id="resTossWin">Mumbai Indians</span>
-            </div>
-            <div class="result-row">
-                <span>🏆 Match Winner Prediction:</span>
-                <span class="val-gold" id="resMatchWin">Chennai Super Kings</span>
-            </div>
-            <div class="result-row">
-                <span>📊 Win Probability:</span>
-                <span class="val-green" id="resProb">CSK: 62% | MI: 38%</span>
-            </div>
-            <div class="result-row">
-                <span>🟢 Analytics Confidence:</span>
-                <span class="val-green" id="resConf">High Confidence</span>
-            </div>
-        </div>
-
-        <!-- Accuracy Analytics Display -->
-        <div class="accuracy-card">
-            <div class="accuracy-title">📊 📰 Cricket Match Prediction Accuracy (AI-Based)</div>
-            <div style="font-size: 14px; font-weight: 600; color: #495057;">
-                Overall Prediction Accuracy: <span style="color: #20c997;">52.84%</span>
-            </div>
-            <div class="progress-bg">
-                <div class="progress-fill"></div>
-            </div>
-            <div style="font-size: 12px; color: #868e96;">Based on 352 total matches analyzed</div>
-
-            <div class="grid-stats">
-                <div class="stat-item">
-                    <div class="stat-val">60.00%</div>
-                    <div class="stat-lbl">Last 5 Matches</div>
+            <div class="tool-card-grid" id="toolsGrid">
+                <div class="tool-card" onclick="showSection('predict-section')">
+                    <div>
+                        <div class="tool-title">🎯 Cricket Match Predictor</div>
+                        <div class="tool-desc">AI-powered statistical match winner forecast</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-val">50.00%</div>
-                    <div class="stat-lbl">Last 10 Matches</div>
+
+                <div class="tool-card" onclick="showSection('toss-section')">
+                    <div>
+                        <div class="tool-title">🪙 Toss Predictor (Accuracy Based)</div>
+                        <div class="tool-desc">Analyze toss winning probabilities from historical records</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
+                </div>
+
+                <div class="tool-card" onclick="showSection('nrr-section')">
+                    <div>
+                        <div class="tool-title">📊 Net Run Rate Calculator</div>
+                        <div class="tool-desc">Calculate exact team NRR for tournament standings</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
+                </div>
+
+                <div class="tool-card" onclick="showSection('score-calc-section')">
+                    <div>
+                        <div class="tool-title">🏏 Over-by-Over Score Predictor</div>
+                        <div class="tool-desc">Project final score based on current run rate & overs</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
+                </div>
+
+                <div class="tool-card" onclick="showSection('ipl-section')">
+                    <div>
+                        <div class="tool-title">🔥 IPL Match Prediction Hub 2026</div>
+                        <div class="tool-desc">Full match & toss insights for Indian Premier League</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
+                </div>
+
+                <div class="tool-card" onclick="showSection('lbw-rule-section')">
+                    <div>
+                        <div class="tool-title">📘 LBW Rule Guide & Examples</div>
+                        <div class="tool-desc">Detailed explanation of Leg Before Wicket laws</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
+                </div>
+
+                <div class="tool-card" onclick="showSection('retired-rule-section')">
+                    <div>
+                        <div class="tool-title">📘 Retired Hurt vs Retired Out</div>
+                        <div class="tool-desc">Understand batter retirement laws in cricket</div>
+                    </div>
+                    <span style="font-size: 20px;">→</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Recommended Tools Section -->
-        <div class="section-box">
-            <div class="section-header">🚀 Recommended Cricket Tools & Guides</div>
-            <div class="tool-list">
-                <a href="#" class="tool-item">🔥 IPL Match Prediction & Analysis</a>
-                <a href="#" class="tool-item">🔥 Win Probability Calculator for Cricket Matches</a>
-                <a href="#" class="tool-item">🔥 Cricket Toss Predictor (Accuracy Based)</a>
-                <a href="#" class="tool-item">🔥 Over by Over Score Predictor (Live)</a>
-                <a href="#" class="tool-item">📈 Cricket Match Prediction for Today</a>
-                <a href="#" class="tool-item">📈 Tomorrow Match Prediction (Updated Daily)</a>
+            <!-- Advice & Disclaimer Section -->
+            <div class="disclaimer-card">
+                <b>Advice and Warning:</b><br>
+                Aaryan Cricket Prediction provides cricket analysis, fantasy insights, and tools strictly for informational and entertainment purposes only. We do not promote gambling or betting in any form, and all predictions or opinions shared on this website are not guaranteed outcomes.
             </div>
         </div>
 
-        <!-- SEO Article & Information Text -->
-        <div class="article-card">
-            <h2>What is a Cricket Match Predictor?</h2>
-            <p>A cricket match predictor is an advanced software solution that projects the potential outcomes of forthcoming matches based on massive volumes of historical data, real-time statistics, and deep analytics. These tools apply machine learning models to assess player strength, venue metrics, and pitch conditions.</p>
+        <!-- ================= PAGE 2: MATCH PREDICTOR ================= -->
+        <div class="page-section" id="predict-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>🎯 Cricket Match Predictor Engine</h2>
+            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Select an upcoming fixture to generate statistical win probabilities:</p>
+            
+            <div class="interactive-box">
+                <div class="form-group">
+                    <label>Select Fixture (Date & Time):</label>
+                    <select class="form-control" id="predFixture">
+                        <option value="1">🇮🇳 India vs 🏝️ West Indies (13 Oct 2026, 09:00 PM IST)</option>
+                        <option value="2">🇵🇰 Pakistan vs 🇦🇺 Australia (14 Oct 2026, 07:30 PM IST)</option>
+                        <option value="3">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇿🇦 South Africa (15 Oct 2026, 03:00 PM IST)</option>
+                    </select>
+                </div>
+                <button class="btn-submit" onclick="runMatchPrediction()">Generate AI Prediction</button>
+                <div class="result-display" id="matchResult"></div>
+            </div>
+        </div>
 
-            <h3>How the Technology Works:</h3>
-            <ul>
-                <li><b>Data Collection:</b> Aggregating 352+ historical match datasets.</li>
-                <li><b>Team Strength Index (TSI):</b> Evaluating batting and bowling form.</li>
-                <li><b>Venue Adjustment Factor:</b> Factoring pitch bounce and dew factors.</li>
-                <li><b>Win Probability Calculation:</b> Mathematical percentage projections.</li>
-            </ul>
+        <!-- ================= PAGE 3: TOSS PREDICTOR ================= -->
+        <div class="page-section" id="toss-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>🪙 Toss Prediction Calculator</h2>
+            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Calculates venue & coin trend probabilities:</p>
+            
+            <div class="interactive-box">
+                <div class="form-group">
+                    <label>Select Team:</label>
+                    <select class="form-control" id="tossTeam">
+                        <option value="87">India Champions (Toss Advantage Rate: 87%)</option>
+                        <option value="78">Pakistan (Toss Advantage Rate: 78%)</option>
+                        <option value="65">England (Toss Advantage Rate: 65%)</option>
+                    </select>
+                </div>
+                <button class="btn-submit" onclick="runTossCalc()">Calculate Toss Probability</button>
+                <div class="result-display" id="tossResult"></div>
+            </div>
+        </div>
 
-            <h3>Benefits of AI Predictions:</h3>
-            <p>Whether you are analyzing matches for fantasy gaming, sports trading, or general analysis, data-driven probabilities offer disciplined insights instead of emotional guesswork.</p>
+        <!-- ================= PAGE 4: NET RUN RATE CALCULATOR ================= -->
+        <div class="page-section" id="nrr-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>📊 Net Run Rate (NRR) Calculator</h2>
+            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Enter total runs scored & overs played across tournament:</p>
+            
+            <div class="interactive-box">
+                <div class="form-group">
+                    <label>Total Runs Scored by Team:</label>
+                    <input type="number" class="form-control" id="runsScored" placeholder="e.g. 850">
+                </div>
+                <div class="form-group">
+                    <label>Total Overs Faced:</label>
+                    <input type="number" class="form-control" id="oversFaced" placeholder="e.g. 100">
+                </div>
+                <div class="form-group">
+                    <label>Total Runs Conceded to Opponents:</label>
+                    <input type="number" class="form-control" id="runsConceded" placeholder="e.g. 780">
+                </div>
+                <div class="form-group">
+                    <label>Total Overs Bowled:</label>
+                    <input type="number" class="form-control" id="oversBowled" placeholder="e.g. 100">
+                </div>
+                <button class="btn-submit" onclick="calculateNRR()">Calculate NRR</button>
+                <div class="result-display" id="nrrResult"></div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 5: PROJECTED SCORE CALCULATOR ================= -->
+        <div class="page-section" id="score-calc-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>🏏 Projected Final Score Predictor</h2>
+            <div class="interactive-box">
+                <div class="form-group">
+                    <label>Current Runs:</label>
+                    <input type="number" class="form-control" id="currRuns" placeholder="e.g. 120">
+                </div>
+                <div class="form-group">
+                    <label>Overs Completed:</label>
+                    <input type="number" class="form-control" id="currOvers" placeholder="e.g. 15">
+                </div>
+                <button class="btn-submit" onclick="calculateProjectedScore()">Project Final Score (20 Overs)</button>
+                <div class="result-display" id="scoreResult"></div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 6: LBW RULE GUIDE ================= -->
+        <div class="page-section" id="lbw-rule-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>📘 LBW Rule Explained (Leg Before Wicket)</h2>
+            <div class="interactive-box">
+                <p>The LBW rule exists to prevent batters from using their body instead of the bat to stop the ball from hitting the stumps.</p><br>
+                <h3>Key Factors for Out:</h3>
+                <ul>
+                    <li><b>Pitching:</b> Ball must pitch in line or outside off stump.</li>
+                    <li><b>Impact:</b> Ball must hit pad in line with stumps.</li>
+                    <li><b>Wickets:</b> Ball trajectory must show it was going on to hit the stumps.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 7: RETIRED HURT VS RETIRED OUT ================= -->
+        <div class="page-section" id="retired-rule-section">
+            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <h2>📘 Retired Hurt vs Retired Out</h2>
+            <div class="interactive-box">
+                <p><b>Retired Hurt:</b> Occurs when a batter leaves the field due to illness or injury. They can return to bat later in the innings.</p><br>
+                <p><b>Retired Out:</b> Occurs when a batter leaves without injury or permission. They cannot return to bat unless the opposing captain agrees.</p>
+            </div>
         </div>
 
         <div class="footer">
-            © 2026 CricketStance AI • Terms & Disclaimer Applied
+            © 2026 Aaryan Cricket Prediction • All Rights Reserved
         </div>
 
     </div>
 
     <script>
-        function updateMatchPrediction() {
-            var val = document.getElementById("matchSelect").value;
-            var box = document.getElementById("resultBox");
-
-            if (val === "0") {
-                box.style.display = "none";
-                return;
-            }
-
-            box.style.display = "block";
-
-            if (val === "1") {
-                document.getElementById("resMatchTitle").innerText = "🏏 Mumbai Indians vs Chennai Super Kings";
-                document.getElementById("resTossWin").innerText = "Mumbai Indians";
-                document.getElementById("resMatchWin").innerText = "Chennai Super Kings";
-                document.getElementById("resProb").innerText = "CSK: 62% | MI: 38%";
-                document.getElementById("resConf").innerText = "High Confidence (78%)";
-            } else if (val === "2") {
-                document.getElementById("resMatchTitle").innerText = "🏏 Royal Challengers Bengaluru vs Kolkata Knight Riders";
-                document.getElementById("resTossWin").innerText = "RCB";
-                document.getElementById("resMatchWin").innerText = "RCB";
-                document.getElementById("resProb").innerText = "RCB: 58% | KKR: 42%";
-                document.getElementById("resConf").innerText = "Medium Confidence (65%)";
-            } else if (val === "3") {
-                document.getElementById("resMatchTitle").innerText = "🏏 India vs Australia";
-                document.getElementById("resTossWin").innerText = "India";
-                document.getElementById("resMatchWin").innerText = "India";
-                document.getElementById("resProb").innerText = "India: 70% | Aus: 30%";
-                document.getElementById("resConf").innerText = "Very High Confidence (85%)";
-            } else if (val === "4") {
-                document.getElementById("resMatchTitle").innerText = "🏏 Pakistan vs England";
-                document.getElementById("resTossWin").innerText = "Pakistan";
-                document.getElementById("resMatchWin").innerText = "Pakistan";
-                document.getElementById("resProb").innerText = "Pak: 55% | Eng: 45%";
-                document.getElementById("resConf").innerText = "High Confidence (72%)";
+        // Toggle Side Menu Drawer
+        function toggleDrawer() {
+            var d = document.getElementById("drawer");
+            var o = document.getElementById("overlay");
+            if (d.classList.contains("open")) {
+                d.classList.remove("open");
+                o.style.display = "none";
+            } else {
+                d.classList.add("open");
+                o.style.display = "block";
             }
         }
-    </script>
-</body>
-    </html>
-    
+
+        // Toggle Accordions inside Menu
+        function toggleAccordion(id) {
+            var el = document.getElementById(id);
+            if (el.style.display === "block") {
+                el.style.display = "none";
