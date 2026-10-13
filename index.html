@@ -3,26 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricket Prediction Dashboard</title>
+    <title>Cricket Prediction & Toss Analytics Portal</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #0b132b;
+            background-color: #070d1e;
             color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 15px;
+            padding-bottom: 30px;
         }
+        /* Top Navigation Bar */
+        .navbar {
+            background: linear-gradient(90deg, #0f1c3f, #1c2541);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3a506b;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .brand-logo {
+            font-size: 20px;
+            font-weight: 900;
+            color: #ffbe0b;
+            letter-spacing: 1px;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+        }
+        .tab-btn {
+            background-color: #1d3557;
+            color: #8d99ae;
+            border: 1px solid #457b9d;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #00f5d4, #00b4d8);
+            color: #000000;
+            border-color: #00f5d4;
+            box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Match Selector Header Box */
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd166;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .match-selector-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .match-option {
+            background: #1c2541;
+            border: 2px solid #2b3a67;
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .match-option:hover, .match-option.selected {
+            border-color: #ffbe0b;
+            background: #253259;
+        }
+        .radio-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #8d99ae;
+            display: inline-block;
+            margin-right: 12px;
+            position: relative;
+        }
+        .match-option.selected .radio-dot {
+            border-color: #ffbe0b;
+            background-color: #ffbe0b;
+        }
+        .match-info-mini {
+            display: flex;
+            align-items: center;
+        }
+        .match-teams-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .match-meta-mini {
+            font-size: 12px;
+            color: #8d99ae;
+            text-align: right;
+        }
+
+        /* Main Dashboard Card */
         .prediction-card {
             background: linear-gradient(145deg, #1c2541, #0b132b);
             border: 2px solid #3a506b;
             border-radius: 20px;
             padding: 20px;
-            width: 100%;
-            max-width: 420px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
         .match-header {
@@ -100,49 +205,140 @@
 </head>
 <body>
 
-<div class="prediction-card">
-    <div class="match-header">
-        🏏 🇮🇳 India Champions <br>vs<br> 🏝️ West Indies Champions
-    </div>
-    
-    <hr class="line-divider">
-    
-    <div class="details-box">
-        🏟️ <b>World Championship of Legends 2026</b><br>
-        🕒 <b>13 Oct 2026, 09:00 pm IST</b>
-    </div>
-    
-    <hr class="line-divider">
-    
-    <div class="details-box">
-        🪙 Toss: <span class="highlight-green">India Champions</span><br>
-        🏆 Winner: <span class="highlight-gold">India Champions</span><br>
-        📊 Confidence: <span class="highlight-green">🟢 High Confidence</span>
-    </div>
-    
-    <hr class="line-divider">
-    
-    <div class="details-box">
-        📈 <b>India Champions: 87% | West Indies Champions: 13%</b>
-    </div>
-    
-    <div class="progress-bar-wrap">
-        <div class="team-a-bar">87%</div>
-        <div class="team-b-bar"></div>
-    </div>
-    
-    <div class="status-badge">
-        🎯 India Champions favored to win
+    <!-- Header Navigation -->
+    <div class="navbar">
+        <div class="brand-logo">🏏 CRIC-ANALYTICS</div>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('match')">Match AI</button>
+            <button class="tab-btn" onclick="switchTab('toss')">Toss AI</button>
+        </div>
     </div>
 
-    <div class="stats-footer">
-        📊 <b>Performance Report:</b> 352 matches in the historical record.<br><br>
-        ✔ Statistics generated automatically<br>
-        ✔ Updated after every completed match<br>
-        ✔ Historical prediction records preserved
-    </div>
-</div>
+    <div class="container">
+        <!-- Live & Upcoming Matches Selector -->
+        <div class="section-title">📋 Select Live / Upcoming Match</div>
+        <div class="match-selector-list">
+            <div class="match-option selected" onclick="selectMatch(1)">
+                <div class="match-info-mini">
+                    <span class="radio-dot"></span>
+                    <div class="match-teams-title">🇮🇳 India vs 🏝️ West Indies</div>
+                </div>
+                <div class="match-meta-mini">
+                    WCL 2026<br>13 Oct, 09:00 PM
+                </div>
+            </div>
 
+            <div class="match-option" onclick="selectMatch(2)">
+                <div class="match-info-mini">
+                    <span class="radio-dot"></span>
+                    <div class="match-teams-title">🇵🇰 Pakistan vs 🇦🇺 Australia</div>
+                </div>
+                <div class="match-meta-mini">
+                    T20 Series<br>14 Oct, 07:30 PM
+                </div>
+            </div>
+
+            <div class="match-option" onclick="selectMatch(3)">
+                <div class="match-info-mini">
+                    <span class="radio-dot"></span>
+                    <div class="match-teams-title">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇿🇦 South Africa</div>
+                </div>
+                <div class="match-meta-mini">
+                    ODI World Cup<br>15 Oct, 03:00 PM
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected Analytics Dashboard Card -->
+        <div class="prediction-card" id="display-card">
+            <div class="match-header" id="card-header">
+                🏏 🇮🇳 India Champions <br>vs<br> 🏝️ West Indies Champions
+            </div>
+            
+            <hr class="line-divider">
+            
+            <div class="details-box" id="card-details">
+                🏟️ <b>World Championship of Legends 2026</b><br>
+                🕒 <b>13 Oct 2026, 09:00 pm IST</b>
+            </div>
+            
+            <hr class="line-divider">
+            
+            <div class="details-box" id="card-prediction">
+                🪙 Toss Prediction: <span class="highlight-green">India Champions</span><br>
+                🏆 Winner Prediction: <span class="highlight-gold">India Champions</span><br>
+                📊 Analytics Confidence: <span class="highlight-green">🟢 High Confidence</span>
+            </div>
+            
+            <hr class="line-divider">
+            
+            <div class="details-box" id="card-percentage">
+                📈 <b>India: 87% | West Indies: 13%</b>
+            </div>
+            
+            <div class="progress-bar-wrap">
+                <div class="team-a-bar" id="bar-a" style="width: 87%;">87%</div>
+                <div class="team-b-bar" id="bar-b" style="width: 13%;"></div>
+            </div>
+            
+            <div class="status-badge" id="card-status">
+                🎯 India Champions favored to win
+            </div>
+
+            <div class="stats-footer">
+                📊 <b>Performance Report:</b> 352 matches historical dataset.<br><br>
+                ✔ Statistics generated automatically<br>
+                ✔ Live odds & analytics active
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            let btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            if(tabName === 'match') {
+                btns[0].classList.add('active');
+            } else {
+                btns[1].classList.add('active');
+            }
+        }
+
+        function selectMatch(id) {
+            let options = document.querySelectorAll('.match-option');
+            options.forEach(o => o.classList.remove('selected'));
+            options[id-1].classList.add('selected');
+
+            if(id === 1) {
+                document.getElementById('card-header').innerHTML = "🏏 🇮🇳 India Champions <br>vs<br> 🏝️ West Indies Champions";
+                document.getElementById('card-details').innerHTML = "🏟️ <b>World Championship of Legends 2026</b><br>🕒 <b>13 Oct 2026, 09:00 pm IST</b>";
+                document.getElementById('card-prediction').innerHTML = "🪙 Toss Prediction: <span class='highlight-green'>India Champions</span><br>🏆 Winner Prediction: <span class='highlight-gold'>India Champions</span><br>📊 Analytics Confidence: <span class='highlight-green'>🟢 High Confidence</span>";
+                document.getElementById('card-percentage').innerHTML = "📈 <b>India: 87% | West Indies: 13%</b>";
+                document.getElementById('bar-a').style.width = "87%";
+                document.getElementById('bar-a').innerText = "87%";
+                document.getElementById('bar-b').style.width = "13%";
+                document.getElementById('card-status').innerText = "🎯 India Champions favored to win";
+            } else if(id === 2) {
+                document.getElementById('card-header').innerHTML = "🏏 🇵🇰 Pakistan <br>vs<br> 🇦🇺 Australia";
+                document.getElementById('card-details').innerHTML = "🏟️ <b>T20 International Series 2026</b><br>🕒 <b>14 Oct 2026, 07:30 pm IST</b>";
+                document.getElementById('card-prediction').innerHTML = "🪙 Toss Prediction: <span class='highlight-green'>Pakistan</span><br>🏆 Winner Prediction: <span class='highlight-gold'>Pakistan</span><br>📊 Analytics Confidence: <span class='highlight-green'>🟢 Very High (82%)</span>";
+                document.getElementById('card-percentage').innerHTML = "📈 <b>Pakistan: 78% | Australia: 22%</b>";
+                document.getElementById('bar-a').style.width = "78%";
+                document.getElementById('bar-a').innerText = "78%";
+                document.getElementById('bar-b').style.width = "22%";
+                document.getElementById('card-status').innerText = "🎯 Pakistan favored to win";
+            } else if(id === 3) {
+                document.getElementById('card-header').innerHTML = "🏏 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England <br>vs<br> 🇿🇦 South Africa";
+                document.getElementById('card-details').innerHTML = "🏟️ <b>ODI World Cup 2026</b><br>🕒 <b>15 Oct 2026, 03:00 pm IST</b>";
+                document.getElementById('card-prediction').innerHTML = "🪙 Toss Prediction: <span class='highlight-green'>South Africa</span><br>🏆 Winner Prediction: <span class='highlight-gold'>England</span><br>📊 Analytics Confidence: <span class='highlight-green'>🟡 Medium (65%)</span>";
+                document.getElementById('card-percentage').innerHTML = "📈 <b>England: 65% | South Africa: 35%</b>";
+                document.getElementById('bar-a').style.width = "65%";
+                document.getElementById('bar-a').innerText = "65%";
+                document.getElementById('bar-b').style.width = "35%";
+                document.getElementById('card-status').innerText = "🎯 England favored to win";
+            }
+        }
+    </script>
 </body>
-  </html>
-  
+                                                                           </html>
+    
