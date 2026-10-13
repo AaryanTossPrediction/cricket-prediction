@@ -3,212 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaryan Cricket Prediction | Tools, Calculators & Rules</title>
+    <title>Aaryan Cricket Prediction | Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #212529; line-height: 1.6; padding-bottom: 50px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; color: #212529; line-height: 1.6; padding-bottom: 60px; }
         
         /* Top Navigation Bar */
         .navbar { background-color: #000000; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
         .brand-logo { display: flex; align-items: center; gap: 10px; color: #ffffff; font-weight: bold; font-size: 18px; cursor: pointer; }
         .brand-icon { background: #00f5d4; color: #000; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
-        .menu-btn { color: #ffffff; font-size: 26px; cursor: pointer; padding: 5px; }
+        .menu-btn { color: #ffffff; font-size: 26px; cursor: pointer; padding: 5px; background: none; border: none; }
 
         /* Sliding Side Drawer Menu */
-        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1100; }
-        .side-drawer { position: fixed; top: 0; right: -300px; width: 290px; height: 100%; background-color: #000000; color: #ffffff; transition: 0.3s ease; z-index: 1200; overflow-y: auto; padding: 20px 15px; }
+        .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1100; }
+        .drawer-overlay.active { display: block; }
+        .side-drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background-color: #000000; color: #ffffff; transition: 0.3s ease; z-index: 1200; overflow-y: auto; padding: 20px 15px; }
         .side-drawer.open { right: 0; }
         .close-drawer { text-align: right; font-size: 24px; color: #ffbe0b; cursor: pointer; margin-bottom: 15px; }
         
-        /* Menu Accordions */
-        .menu-category { border-bottom: 1px solid #222; margin-bottom: 10px; }
-        .category-title { font-weight: bold; font-size: 15px; padding: 12px 5px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: #e0e1dd; }
-        .category-title:hover { color: #00f5d4; }
-        .category-items { display: none; padding-left: 15px; background: #111111; border-radius: 8px; margin-bottom: 10px; }
-        .category-items a { display: block; color: #adb5bd; text-decoration: none; padding: 10px 5px; font-size: 14px; border-bottom: 1px solid #222; }
-        .category-items a:hover { color: #ffbe0b; }
+        /* Menu Links */
+        .menu-item { display: block; color: #e0e1dd; text-decoration: none; padding: 12px 10px; font-size: 15px; font-weight: 600; border-bottom: 1px solid #222; cursor: pointer; }
+        .menu-item:hover { color: #00f5d4; background: #111; }
 
         .container { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
 
-        /* Page Section Wrapper */
+        /* Page Sections */
         .page-section { display: none; }
         .page-section.active { display: block; }
 
-        /* Telegram Banner Card */
+        /* Cards & UI */
         .telegram-card { background: #e7f5ff; border: 1px solid #a5d8ff; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .telegram-btn { background-color: #0088cc; color: #ffffff; text-decoration: none; padding: 10px 22px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 8px; box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3); }
+        .telegram-btn { background-color: #0088cc; color: #ffffff; text-decoration: none; padding: 10px 22px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 8px; }
 
-        /* Search Input Box */
-        .search-box { width: 100%; padding: 14px; border: 2px solid #339af0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .search-box { width: 100%; padding: 14px; border: 2px solid #339af0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; background: #fff; }
 
-        /* Grid Action Cards */
         .tool-card-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         .tool-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-        .tool-card:hover { border-color: #339af0; background: #f1f7fe; transform: translateY(-2px); }
+        .tool-card:hover { border-color: #339af0; background: #f1f7fe; }
         .tool-title { font-size: 16px; font-weight: bold; color: #212529; }
         .tool-desc { font-size: 13px; color: #6c757d; }
 
-        /* Interactive Forms & Info Cards */
         .interactive-box { background: #ffffff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; outline: none; }
-        .btn-submit { width: 100%; background: #00f5d4; color: #000; font-weight: bold; padding: 14px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; transition: 0.2s; }
-        .btn-submit:hover { background: #00d8ba; }
-        
+        .btn-submit { width: 100%; background: #00f5d4; color: #000; font-weight: bold; padding: 14px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; }
         .result-display { margin-top: 15px; padding: 15px; background: #e7f5ff; border: 1px solid #74c0fc; border-radius: 10px; font-weight: bold; text-align: center; font-size: 16px; color: #1864ab; display: none; }
 
-        .disclaimer-card { background: #fff9db; border: 1px solid #fcc419; border-radius: 12px; padding: 15px; font-size: 13px; color: #664d03; margin-top: 25px; }
-
+        .back-btn { background: none; border: none; color: #339af0; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 15px; display: inline-block; }
         .footer { text-align: center; font-size: 12px; color: #adb5bd; margin-top: 30px; border-top: 1px solid #dee2e6; padding-top: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
+    <!-- Header -->
     <div class="navbar">
-        <div class="brand-logo" onclick="showSection('home-section')">
+        <div class="brand-logo" onclick="switchSection('home-section')">
             <div class="brand-icon">AP</div>
             <span>Aaryan Cricket Prediction</span>
         </div>
-        <div class="menu-btn" onclick="toggleDrawer()">☰</div>
+        <button class="menu-btn" onclick="toggleDrawer()">☰</button>
     </div>
 
-    <!-- Drawer Overlay & Side Menu -->
+    <!-- Side Drawer Menu -->
     <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
     <div class="side-drawer" id="drawer">
         <div class="close-drawer" onclick="toggleDrawer()">✕ Close</div>
-        
-        <div class="menu-category">
-            <div class="category-title" onclick="toggleAccordion('cat-tools')">🎯 Match Predictors <span>▼</span></div>
-            <div class="category-items" id="cat-tools">
-                <a href="#" onclick="showSection('predict-section')">🔥 Live Match Predictor</a>
-                <a href="#" onclick="showSection('toss-section')">🪙 Toss Predictor Engine</a>
-                <a href="#" onclick="showSection('win-prob-section')">📈 Win Probability %</a>
-            </div>
-        </div>
-
-        <div class="menu-category">
-            <div class="category-title" onclick="toggleAccordion('cat-leagues')">🏆 Cricket Leagues <span>▼</span></div>
-            <div class="category-items" id="cat-leagues">
-                <a href="#" onclick="showSection('ipl-section')">🇮🇳 IPL Prediction Hub</a>
-                <a href="#" onclick="showSection('psl-section')">🇵🇰 PSL 2026 Predictions</a>
-                <a href="#" onclick="showSection('bbl-section')">🇦🇺 Big Bash League</a>
-            </div>
-        </div>
-
-        <div class="menu-category">
-            <div class="category-title" onclick="toggleAccordion('cat-calcs')">🧮 Stat Calculators <span>▼</span></div>
-            <div class="category-items" id="cat-calcs">
-                <a href="#" onclick="showSection('nrr-section')">📊 Net Run Rate Calculator</a>
-                <a href="#" onclick="showSection('score-calc-section')">🏏 Projected Score Calculator</a>
-            </div>
-        </div>
-
-        <div class="menu-category">
-            <div class="category-title" onclick="toggleAccordion('cat-rules')">📘 Rules & Guides <span>▼</span></div>
-            <div class="category-items" id="cat-rules">
-                <a href="#" onclick="showSection('lbw-rule-section')">📜 LBW Rule Explained</a>
-                <a href="#" onclick="showSection('retired-rule-section')">📜 Retired Hurt vs Retired Out</a>
-                <a href="#" onclick="showSection('deadball-rule-section')">📜 Dead Ball Guide</a>
-            </div>
-        </div>
+        <a class="menu-item" onclick="switchSection('home-section')">🏠 Home Portal</a>
+        <a class="menu-item" onclick="switchSection('predict-section')">🎯 Match Predictor Engine</a>
+        <a class="menu-item" onclick="switchSection('toss-section')">🪙 Toss Predictor Tool</a>
+        <a class="menu-item" onclick="switchSection('nrr-section')">📊 Net Run Rate Calculator</a>
+        <a class="menu-item" onclick="switchSection('score-calc-section')">🏏 Projected Score Predictor</a>
+        <a class="menu-item" onclick="switchSection('ipl-section')">🔥 IPL Prediction Hub 2026</a>
+        <a class="menu-item" onclick="switchSection('lbw-rule-section')">📘 LBW Rule Explained</a>
     </div>
 
     <div class="container">
 
         <!-- Telegram Card -->
         <div class="telegram-card">
-            <div>🔴 <b>Don't miss the next live cricket update</b></div>
+            <div>🔴 <b>Join our official Telegram channel</b></div>
             <a href="https://t.me" class="telegram-btn" target="_blank">🚀 JOIN TELEGRAM FREE</a>
         </div>
 
-        <!-- SEARCH BAR -->
+        <!-- Search Bar -->
         <input type="text" class="search-box" id="searchBar" placeholder="🔍 Search tools, calculators, predictors..." onkeyup="filterTools()">
 
-        <!-- ================= PAGE 1: HOME PORTAL ================= -->
+        <!-- ================= HOME SECTION ================= -->
         <div class="page-section active" id="home-section">
             <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 5px;">🏏 Cricket Tools & Predictors</h1>
-            <p style="color: #6c757d; font-size: 14px; margin-bottom: 20px;">Everything you need — match predictors, live calculators & rules. All free, all in one place.</p>
+            <p style="color: #6c757d; font-size: 14px; margin-bottom: 20px;">Everything you need — match predictors, live calculators & rules.</p>
 
             <div class="tool-card-grid" id="toolsGrid">
-                <div class="tool-card" onclick="showSection('predict-section')">
+                <div class="tool-card" onclick="switchSection('predict-section')">
                     <div>
                         <div class="tool-title">🎯 Cricket Match Predictor</div>
                         <div class="tool-desc">AI-powered statistical match winner forecast</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="showSection('toss-section')">
+                <div class="tool-card" onclick="switchSection('toss-section')">
                     <div>
                         <div class="tool-title">🪙 Toss Predictor (Accuracy Based)</div>
-                        <div class="tool-desc">Analyze toss winning probabilities from historical records</div>
+                        <div class="tool-desc">Analyze toss winning probabilities from records</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="showSection('nrr-section')">
+                <div class="tool-card" onclick="switchSection('nrr-section')">
                     <div>
                         <div class="tool-title">📊 Net Run Rate Calculator</div>
-                        <div class="tool-desc">Calculate exact team NRR for tournament standings</div>
+                        <div class="tool-desc">Calculate exact team NRR for standings</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="showSection('score-calc-section')">
+                <div class="tool-card" onclick="switchSection('score-calc-section')">
                     <div>
                         <div class="tool-title">🏏 Over-by-Over Score Predictor</div>
-                        <div class="tool-desc">Project final score based on current run rate & overs</div>
+                        <div class="tool-desc">Project final score based on run rate & overs</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="showSection('ipl-section')">
+                <div class="tool-card" onclick="switchSection('ipl-section')">
                     <div>
                         <div class="tool-title">🔥 IPL Match Prediction Hub 2026</div>
-                        <div class="tool-desc">Full match & toss insights for Indian Premier League</div>
+                        <div class="tool-desc">Full match & toss insights for IPL</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="showSection('lbw-rule-section')">
+                <div class="tool-card" onclick="switchSection('lbw-rule-section')">
                     <div>
                         <div class="tool-title">📘 LBW Rule Guide & Examples</div>
                         <div class="tool-desc">Detailed explanation of Leg Before Wicket laws</div>
                     </div>
-                    <span style="font-size: 20px;">→</span>
+                    <span>→</span>
                 </div>
-
-                <div class="tool-card" onclick="showSection('retired-rule-section')">
-                    <div>
-                        <div class="tool-title">📘 Retired Hurt vs Retired Out</div>
-                        <div class="tool-desc">Understand batter retirement laws in cricket</div>
-                    </div>
-                    <span style="font-size: 20px;">→</span>
-                </div>
-            </div>
-
-            <!-- Advice & Disclaimer Section -->
-            <div class="disclaimer-card">
-                <b>Advice and Warning:</b><br>
-                Aaryan Cricket Prediction provides cricket analysis, fantasy insights, and tools strictly for informational and entertainment purposes only. We do not promote gambling or betting in any form, and all predictions or opinions shared on this website are not guaranteed outcomes.
             </div>
         </div>
 
-        <!-- ================= PAGE 2: MATCH PREDICTOR ================= -->
+        <!-- ================= MATCH PREDICTOR ================= -->
         <div class="page-section" id="predict-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🎯 Cricket Match Predictor Engine</h2>
-            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Select an upcoming fixture to generate statistical win probabilities:</p>
+            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Select an upcoming fixture:</p>
             
             <div class="interactive-box">
                 <div class="form-group">
-                    <label>Select Fixture (Date & Time):</label>
+                    <label>Select Fixture:</label>
                     <select class="form-control" id="predFixture">
-                        <option value="1">🇮🇳 India vs 🏝️ West Indies (13 Oct 2026, 09:00 PM IST)</option>
-                        <option value="2">🇵🇰 Pakistan vs 🇦🇺 Australia (14 Oct 2026, 07:30 PM IST)</option>
-                        <option value="3">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇿🇦 South Africa (15 Oct 2026, 03:00 PM IST)</option>
+                        <option value="1">🇮🇳 India vs 🏝️ West Indies (13 Oct 2026)</option>
+                        <option value="2">🇵🇰 Pakistan vs 🇦🇺 Australia (14 Oct 2026)</option>
+                        <option value="3">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇿🇦 South Africa (15 Oct 2026)</option>
                     </select>
                 </div>
                 <button class="btn-submit" onclick="runMatchPrediction()">Generate AI Prediction</button>
@@ -216,19 +165,17 @@
             </div>
         </div>
 
-        <!-- ================= PAGE 3: TOSS PREDICTOR ================= -->
+        <!-- ================= TOSS PREDICTOR ================= -->
         <div class="page-section" id="toss-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🪙 Toss Prediction Calculator</h2>
-            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Calculates venue & coin trend probabilities:</p>
-            
             <div class="interactive-box">
                 <div class="form-group">
                     <label>Select Team:</label>
                     <select class="form-control" id="tossTeam">
-                        <option value="87">India Champions (Toss Advantage Rate: 87%)</option>
-                        <option value="78">Pakistan (Toss Advantage Rate: 78%)</option>
-                        <option value="65">England (Toss Advantage Rate: 65%)</option>
+                        <option value="87">India Champions (Toss Rate: 87%)</option>
+                        <option value="78">Pakistan (Toss Rate: 78%)</option>
+                        <option value="65">England (Toss Rate: 65%)</option>
                     </select>
                 </div>
                 <button class="btn-submit" onclick="runTossCalc()">Calculate Toss Probability</button>
@@ -236,15 +183,13 @@
             </div>
         </div>
 
-        <!-- ================= PAGE 4: NET RUN RATE CALCULATOR ================= -->
+        <!-- ================= NRR CALCULATOR ================= -->
         <div class="page-section" id="nrr-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>📊 Net Run Rate (NRR) Calculator</h2>
-            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Enter total runs scored & overs played across tournament:</p>
-            
             <div class="interactive-box">
                 <div class="form-group">
-                    <label>Total Runs Scored by Team:</label>
+                    <label>Total Runs Scored:</label>
                     <input type="number" class="form-control" id="runsScored" placeholder="e.g. 850">
                 </div>
                 <div class="form-group">
@@ -252,7 +197,7 @@
                     <input type="number" class="form-control" id="oversFaced" placeholder="e.g. 100">
                 </div>
                 <div class="form-group">
-                    <label>Total Runs Conceded to Opponents:</label>
+                    <label>Total Runs Conceded:</label>
                     <input type="number" class="form-control" id="runsConceded" placeholder="e.g. 780">
                 </div>
                 <div class="form-group">
@@ -264,9 +209,9 @@
             </div>
         </div>
 
-        <!-- ================= PAGE 5: PROJECTED SCORE CALCULATOR ================= -->
+        <!-- ================= PROJECTED SCORE ================= -->
         <div class="page-section" id="score-calc-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🏏 Projected Final Score Predictor</h2>
             <div class="interactive-box">
                 <div class="form-group">
@@ -277,33 +222,26 @@
                     <label>Overs Completed:</label>
                     <input type="number" class="form-control" id="currOvers" placeholder="e.g. 15">
                 </div>
-                <button class="btn-submit" onclick="calculateProjectedScore()">Project Final Score (20 Overs)</button>
+                <button class="btn-submit" onclick="calculateProjectedScore()">Project Score (20 Overs)</button>
                 <div class="result-display" id="scoreResult"></div>
             </div>
         </div>
 
-        <!-- ================= PAGE 6: LBW RULE GUIDE ================= -->
-        <div class="page-section" id="lbw-rule-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
-            <h2>📘 LBW Rule Explained (Leg Before Wicket)</h2>
+        <!-- ================= IPL HUB ================= -->
+        <div class="page-section" id="ipl-section">
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
+            <h2>🔥 IPL Prediction Hub 2026</h2>
             <div class="interactive-box">
-                <p>The LBW rule exists to prevent batters from using their body instead of the bat to stop the ball from hitting the stumps.</p><br>
-                <h3>Key Factors for Out:</h3>
-                <ul>
-                    <li><b>Pitching:</b> Ball must pitch in line or outside off stump.</li>
-                    <li><b>Impact:</b> Ball must hit pad in line with stumps.</li>
-                    <li><b>Wickets:</b> Ball trajectory must show it was going on to hit the stumps.</li>
-                </ul>
+                <p>Get full match analysis, pitch behavior reports, and ball-by-ball win projections specifically tailored for the Indian Premier League.</p>
             </div>
         </div>
 
-        <!-- ================= PAGE 7: RETIRED HURT VS RETIRED OUT ================= -->
-        <div class="page-section" id="retired-rule-section">
-            <button onclick="showSection('home-section')" style="background:none; border:none; color:#339af0; font-weight:bold; cursor:pointer; margin-bottom:15px;">← Back to Home</button>
-            <h2>📘 Retired Hurt vs Retired Out</h2>
+        <!-- ================= LBW RULE ================= -->
+        <div class="page-section" id="lbw-rule-section">
+            <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
+            <h2>📘 LBW Rule Explained</h2>
             <div class="interactive-box">
-                <p><b>Retired Hurt:</b> Occurs when a batter leaves the field due to illness or injury. They can return to bat later in the innings.</p><br>
-                <p><b>Retired Out:</b> Occurs when a batter leaves without injury or permission. They cannot return to bat unless the opposing captain agrees.</p>
+                <p>The LBW rule prevents batters from using their body to stop the ball from hitting the stumps. Factors include Pitching, Impact, and Wickets trajectory.</p>
             </div>
         </div>
 
@@ -314,21 +252,80 @@
     </div>
 
     <script>
-        // Toggle Side Menu Drawer
         function toggleDrawer() {
-            var d = document.getElementById("drawer");
-            var o = document.getElementById("overlay");
-            if (d.classList.contains("open")) {
-                d.classList.remove("open");
-                o.style.display = "none";
+            var drawer = document.getElementById("drawer");
+            var overlay = document.getElementById("overlay");
+            drawer.classList.toggle("open");
+            overlay.classList.toggle("active");
+        }
+
+        function switchSection(sectionId) {
+            var sections = document.querySelectorAll('.page-section');
+            sections.forEach(function(sec) {
+                sec.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Close drawer if open
+            document.getElementById("drawer").classList.remove("open");
+            document.getElementById("overlay").classList.remove("active");
+            window.scrollTo(0, 0);
+        }
+
+        function filterTools() {
+            var q = document.getElementById("searchBar").value.toLowerCase();
+            var cards = document.querySelectorAll(".tool-card");
+            cards.forEach(function(card) {
+                var text = card.innerText.toLowerCase();
+                if (text.indexOf(q) > -1) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function runMatchPrediction() {
+            var val = document.getElementById("predFixture").value;
+            var res = document.getElementById("matchResult");
+            res.style.display = "block";
+            if(val === "1") {
+                res.innerHTML = "🏆 Winner: <b>India Champions</b><br>📈 Probability: <b>87%</b>";
+            } else if(val === "2") {
+                res.innerHTML = "🏆 Winner: <b>Pakistan</b><br>📈 Probability: <b>78%</b>";
             } else {
-                d.classList.add("open");
-                o.style.display = "block";
+                res.innerHTML = "🏆 Winner: <b>England</b><br>📈 Probability: <b>65%</b>";
             }
         }
 
-        // Toggle Accordions inside Menu
-        function toggleAccordion(id) {
-            var el = document.getElementById(id);
-            if (el.style.display === "block") {
-                el.style.display = "none";
+        function runTossCalc() {
+            var val = document.getElementById("tossTeam").value;
+            var res = document.getElementById("tossResult");
+            res.style.display = "block";
+            res.innerText = "🪙 Toss Win Probability: " + val + "%";
+        }
+
+        function calculateNRR() {
+            var rs = parseFloat(document.getElementById("runsScored").value) || 0;
+            var of = parseFloat(document.getElementById("oversFaced").value) || 1;
+            var rc = parseFloat(document.getElementById("runsConceded").value) || 0;
+            var ob = parseFloat(document.getElementById("oversBowled").value) || 1;
+            var nrr = (rs / of) - (rc / ob);
+            var res = document.getElementById("nrrResult");
+            res.style.display = "block";
+            res.innerHTML = "📊 Calculated NRR: <b>" + nrr.toFixed(3) + "</b>";
+        }
+
+        function calculateProjectedScore() {
+            var r = parseFloat(document.getElementById("currRuns").value) || 0;
+            var o = parseFloat(document.getElementById("currOvers").value) || 1;
+            var proj = Math.round((r / o) * 20);
+            var res = document.getElementById("scoreResult");
+            res.style.display = "block";
+            res.innerHTML = "🎯 Projected Score: <b>" + proj + " Runs</b>";
+        }
+    </script>
+</body>
+            </html>
+
+                
