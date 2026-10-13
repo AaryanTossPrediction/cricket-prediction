@@ -3,60 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaryan Cricket Prediction | Portal</title>
+    <title>Aaryan Cricket Prediction | Tools, Calculators & Analytics</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; color: #212529; line-height: 1.6; padding-bottom: 60px; }
         
-        /* Top Navigation Bar */
-        .navbar { background-color: #000000; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .navbar { background-color: #000000; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .brand-logo { display: flex; align-items: center; gap: 10px; color: #ffffff; font-weight: bold; font-size: 18px; cursor: pointer; }
-        .brand-icon { background: #00f5d4; color: #000; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 15px; }
-        .menu-btn { color: #ffffff; font-size: 26px; cursor: pointer; padding: 5px; background: none; border: none; }
+        .brand-icon { background: #00f5d4; color: #000; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+        .menu-btn { color: #ffffff; font-size: 26px; cursor: pointer; background: none; border: none; }
 
-        /* Sliding Side Drawer Menu */
         .drawer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1100; }
         .drawer-overlay.active { display: block; }
         .side-drawer { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background-color: #000000; color: #ffffff; transition: 0.3s ease; z-index: 1200; overflow-y: auto; padding: 20px 15px; }
         .side-drawer.open { right: 0; }
         .close-drawer { text-align: right; font-size: 24px; color: #ffbe0b; cursor: pointer; margin-bottom: 15px; }
         
-        /* Menu Links */
         .menu-item { display: block; color: #e0e1dd; text-decoration: none; padding: 12px 10px; font-size: 15px; font-weight: 600; border-bottom: 1px solid #222; cursor: pointer; }
         .menu-item:hover { color: #00f5d4; background: #111; }
 
         .container { max-width: 600px; margin: 0 auto; padding: 20px 15px; }
-
-        /* Page Sections */
         .page-section { display: none; }
         .page-section.active { display: block; }
 
-        /* Cards & UI */
         .telegram-card { background: #e7f5ff; border: 1px solid #a5d8ff; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
         .telegram-btn { background-color: #0088cc; color: #ffffff; text-decoration: none; padding: 10px 22px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 8px; }
 
         .search-box { width: 100%; padding: 14px; border: 2px solid #339af0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 20px; background: #fff; }
 
         .tool-card-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
-        .tool-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-        .tool-card:hover { border-color: #339af0; background: #f1f7fe; }
+        .tool-card { background: #ffffff; border: 1px solid #e9ecef; border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
         .tool-title { font-size: 16px; font-weight: bold; color: #212529; }
         .tool-desc { font-size: 13px; color: #6c757d; }
 
-        .interactive-box { background: #ffffff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .interactive-box { background: #ffffff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; margin-bottom: 25px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 6px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; outline: none; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-size: 15px; }
         .btn-submit { width: 100%; background: #00f5d4; color: #000; font-weight: bold; padding: 14px; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; }
-        .result-display { margin-top: 15px; padding: 15px; background: #e7f5ff; border: 1px solid #74c0fc; border-radius: 10px; font-weight: bold; text-align: center; font-size: 16px; color: #1864ab; display: none; }
+        .result-display { margin-top: 15px; padding: 15px; background: #e7f5ff; border: 1px solid #74c0fc; border-radius: 10px; font-weight: bold; text-align: center; display: none; }
 
-        .back-btn { background: none; border: none; color: #339af0; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 15px; display: inline-block; }
+        .back-btn { background: none; border: none; color: #339af0; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 15px; }
+        .article-card { background: #fff; border: 1px solid #dee2e6; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
         .footer { text-align: center; font-size: 12px; color: #adb5bd; margin-top: 30px; border-top: 1px solid #dee2e6; padding-top: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <div class="navbar">
         <div class="brand-logo" onclick="switchSection('home-section')">
             <div class="brand-icon">AP</div>
@@ -65,7 +58,6 @@
         <button class="menu-btn" onclick="toggleDrawer()">☰</button>
     </div>
 
-    <!-- Side Drawer Menu -->
     <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
     <div class="side-drawer" id="drawer">
         <div class="close-drawer" onclick="toggleDrawer()">✕ Close</div>
@@ -74,22 +66,20 @@
         <a class="menu-item" onclick="switchSection('toss-section')">🪙 Toss Predictor Tool</a>
         <a class="menu-item" onclick="switchSection('nrr-section')">📊 Net Run Rate Calculator</a>
         <a class="menu-item" onclick="switchSection('score-calc-section')">🏏 Projected Score Predictor</a>
-        <a class="menu-item" onclick="switchSection('ipl-section')">🔥 IPL Prediction Hub 2026</a>
-        <a class="menu-item" onclick="switchSection('lbw-rule-section')">📘 LBW Rule Explained</a>
+        <a class="menu-item" onclick="switchSection('faq-section')">❓ Frequently Asked Questions (FAQs)</a>
+        <a class="menu-item" onclick="switchSection('terms-section')">📜 Terms & Disclaimer</a>
     </div>
 
     <div class="container">
 
-        <!-- Telegram Card -->
         <div class="telegram-card">
-            <div>🔴 <b>Join our official Telegram channel</b></div>
+            <div>🔴 <b>Join Official Aaryan Cricket Telegram</b></div>
             <a href="https://t.me" class="telegram-btn" target="_blank">🚀 JOIN TELEGRAM FREE</a>
         </div>
 
-        <!-- Search Bar -->
         <input type="text" class="search-box" id="searchBar" placeholder="🔍 Search tools, calculators, predictors..." onkeyup="filterTools()">
 
-        <!-- ================= HOME SECTION ================= -->
+        <!-- HOME PORTAL -->
         <div class="page-section active" id="home-section">
             <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 5px;">🏏 Cricket Tools & Predictors</h1>
             <p style="color: #6c757d; font-size: 14px; margin-bottom: 20px;">Everything you need — match predictors, live calculators & rules.</p>
@@ -127,30 +117,28 @@
                     <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="switchSection('ipl-section')">
+                <div class="tool-card" onclick="switchSection('faq-section')">
                     <div>
-                        <div class="tool-title">🔥 IPL Match Prediction Hub 2026</div>
-                        <div class="tool-desc">Full match & toss insights for IPL</div>
+                        <div class="tool-title">❓ FAQs & Prediction Guides</div>
+                        <div class="tool-desc">How algorithms, TSI formulas & calculations work</div>
                     </div>
                     <span>→</span>
                 </div>
 
-                <div class="tool-card" onclick="switchSection('lbw-rule-section')">
+                <div class="tool-card" onclick="switchSection('terms-section')">
                     <div>
-                        <div class="tool-title">📘 LBW Rule Guide & Examples</div>
-                        <div class="tool-desc">Detailed explanation of Leg Before Wicket laws</div>
+                        <div class="tool-title">📜 Terms & Warning Disclaimer</div>
+                        <div class="tool-desc">Important information & compliance notes</div>
                     </div>
                     <span>→</span>
                 </div>
             </div>
         </div>
 
-        <!-- ================= MATCH PREDICTOR ================= -->
+        <!-- MATCH PREDICTOR -->
         <div class="page-section" id="predict-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🎯 Cricket Match Predictor Engine</h2>
-            <p style="color:#6c757d; font-size:14px; margin-bottom:15px;">Select an upcoming fixture:</p>
-            
             <div class="interactive-box">
                 <div class="form-group">
                     <label>Select Fixture:</label>
@@ -165,7 +153,7 @@
             </div>
         </div>
 
-        <!-- ================= TOSS PREDICTOR ================= -->
+        <!-- TOSS PREDICTOR -->
         <div class="page-section" id="toss-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🪙 Toss Prediction Calculator</h2>
@@ -183,7 +171,7 @@
             </div>
         </div>
 
-        <!-- ================= NRR CALCULATOR ================= -->
+        <!-- NRR CALCULATOR -->
         <div class="page-section" id="nrr-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>📊 Net Run Rate (NRR) Calculator</h2>
@@ -209,7 +197,7 @@
             </div>
         </div>
 
-        <!-- ================= PROJECTED SCORE ================= -->
+        <!-- PROJECTED SCORE -->
         <div class="page-section" id="score-calc-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
             <h2>🏏 Projected Final Score Predictor</h2>
@@ -227,21 +215,26 @@
             </div>
         </div>
 
-        <!-- ================= IPL HUB ================= -->
-        <div class="page-section" id="ipl-section">
+        <!-- FAQs SECTION -->
+        <div class="page-section" id="faq-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
-            <h2>🔥 IPL Prediction Hub 2026</h2>
-            <div class="interactive-box">
-                <p>Get full match analysis, pitch behavior reports, and ball-by-ball win projections specifically tailored for the Indian Premier League.</p>
+            <h2>❓ Frequently Asked Questions (FAQs)</h2>
+            <div class="article-card">
+                <h3>Is this prediction tool free to use?</h3>
+                <p>Yes, all prediction models and calculators are 100% free for public use.</p><br>
+                <h3>How accurate are the predictions?</h3>
+                <p>Models are evaluated against historical datasets (352+ matches) maintaining high statistical confidence.</p><br>
+                <h3>What is Team Strength Index (TSI)?</h3>
+                <p>TSI combines recent form, batting depth, bowling economy, and pitch adaptability into a single mathematical rating.</p>
             </div>
         </div>
 
-        <!-- ================= LBW RULE ================= -->
-        <div class="page-section" id="lbw-rule-section">
+        <!-- TERMS SECTION -->
+        <div class="page-section" id="terms-section">
             <button class="back-btn" onclick="switchSection('home-section')">← Back to Home</button>
-            <h2>📘 LBW Rule Explained</h2>
-            <div class="interactive-box">
-                <p>The LBW rule prevents batters from using their body to stop the ball from hitting the stumps. Factors include Pitching, Impact, and Wickets trajectory.</p>
+            <h2>📜 Terms and Warning Disclaimer</h2>
+            <div class="article-card">
+                <p><b>Advice and Warning:</b> Aaryan Cricket Prediction provides statistical sports analysis and tools strictly for entertainment and educational purposes only. We do not promote gambling or betting in any form. Predictions are mathematical estimates and do not guarantee actual match outcomes.</p>
             </div>
         </div>
 
@@ -266,7 +259,6 @@
             });
             document.getElementById(sectionId).classList.add('active');
             
-            // Close drawer if open
             document.getElementById("drawer").classList.remove("open");
             document.getElementById("overlay").classList.remove("active");
             window.scrollTo(0, 0);
@@ -326,6 +318,5 @@
         }
     </script>
 </body>
-            </html>
-
+    </html>
                 
